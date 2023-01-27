@@ -1,7 +1,7 @@
 pipeline {
 
     tools {
-        maven 'maven-3.6.3'
+        maven 'maven-3.8.7'
     }
   environment {
     dockerimagename = "ayush0773/product-catalogue"
