@@ -2,6 +2,7 @@ pipeline {
 
   environment {
     dockerimagename = "ayush0773/product-catalogue"
+    registryCredential = 'dockerhublogin'
     dockerImage = ""
   }
 
@@ -15,22 +16,21 @@ pipeline {
       }
     }
 
+
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build dockerimagename
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          echo "Docker Image completed - "
         }
       }
     }
 
     stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhublogin'
-           }
       steps{
         script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push('')
           }
         }
       }
