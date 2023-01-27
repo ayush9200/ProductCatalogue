@@ -1,9 +1,14 @@
 pipeline {
 
+    tools {
+        maven 'maven-3.6.3'
+    }
   environment {
     dockerimagename = "ayush0773/product-catalogue"
     registryCredential = 'dockerhublogin'
     dockerImage = ""
+    DATE = new Date().format('yy.M')
+    TAG = "${DATE}.${BUILD_NUMBER}"
   }
 
   agent any
@@ -16,11 +21,17 @@ pipeline {
       }
     }
 
+    stage ('Build') {
+                steps {
+                    sh 'mvn clean package'
+                }
+            }
 
-    stage('Build image') {
+
+    stage('Build Docker image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          docker.build("${dockerimagename}:${TAG}")
         }
       }
     }
@@ -28,8 +39,9 @@ pipeline {
     stage('Pushing Image') {
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push('')
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhublogin') {
+              docker.image("${dockerimagename}:${TAG}").push()
+              docker.image("${dockerimagename}:${TAG}").push("latest")
           }
         }
       }
