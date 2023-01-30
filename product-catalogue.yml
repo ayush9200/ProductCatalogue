@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +14,7 @@ spec:
         app: product-catalogue
     spec:
       containers:
-        - name: springboot
+        - name: product-catalogue
           image: ayush0773/product-catalogue:product-catalogue
           ports:
             - containerPort: 8080
