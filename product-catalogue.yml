@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: product-catalogue
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: product-catalogue
@@ -13,6 +13,8 @@ spec:
       labels:
         app: product-catalogue
     spec:
+      imagePullSecrets:
+        - name: my-docker-container-registry
       containers:
         - name: product-catalogue
           image: ayush0773/product-catalogue:product-catalogue
