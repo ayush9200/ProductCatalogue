@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  jhooq-springboot-container:
+    image: product-catalogue:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/product-catalogue-container
+    ports:
+      - "8080-8100:8080"
