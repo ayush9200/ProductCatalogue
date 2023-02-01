@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-catalogue
+  labels:
+    name: product-catalogue
+spec:
+  selector:
+    app: product-catalogue
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
